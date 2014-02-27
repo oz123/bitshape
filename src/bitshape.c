@@ -18,6 +18,7 @@ int random_num = 0;
 int guessed_num = 0;
 int counter = 0; 
 int play_on = 1;
+int ans;
 char response[CHARSIZE];
 
 printf("\n\t The BitShape Game \n"); 
@@ -32,7 +33,13 @@ printf("\n\t The BitShape Game \n");
             
             case 1:
                 printf("Guess a number from it's bit shape ...\n");
-                guess_num_from_binary();
+                /* if correct guess_num_from_binary returns 0 */
+                ans = guess_num_from_binary();
+                if (! ans) {
+                    printf("\nThat's Correct!\n"); 
+                    } else {
+                    printf("\nThat's Wrong! The correct answer is %d\n", ans);
+                    }
                 break;
             case 2:
                 printf("Play version 2\n");
@@ -54,6 +61,7 @@ printf("\n\t The BitShape Game \n");
 void printbitssimple(int n) 
 {
     unsigned int i;
+    /* printf("The sizeof of n is %ld\n", sizeof(n));*/
     i = 1<<(sizeof(n) * 4 - 1);
     while (i > 0) 
     {
@@ -69,13 +77,17 @@ int guess_num_from_binary(void){
     int random_num ;
     char ans[8];
     srand(time(NULL));
-    random_num = rand() % 1000 + 1;
+    random_num = rand() % 100 + 1;
     
     printf("Here is the number:\n");
     printbitssimple(random_num);
     printf("\nEnter your answer\n");
-    fgets(ans, 2, stdin);
+    fgets(ans, 6, stdin);
     printf("\n");
     printf("you typed: %s \n", ans);
-    return 1;
+    if ( atoi(ans) == random_num ) {
+        return 0;
+    } else {
+        return random_num;
+    }
 }
