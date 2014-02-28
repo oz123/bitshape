@@ -6,9 +6,10 @@
 void mainloop(void);
 void random_number(void);
 void printbitssimple(int);
+void createbitshape(int, char*);
 int  compare_user_input(char*);
-
 int guess_num_from_binary(void);
+int guess_binary_from_num(void);
 
 
 int main(void) 
@@ -20,6 +21,7 @@ int counter = 0;
 int play_on = 1;
 int ans;
 char response[CHARSIZE];
+
 
 printf("\n\t The BitShape Game \n"); 
     while(play_on)
@@ -43,6 +45,7 @@ printf("\n\t The BitShape Game \n");
                 break;
             case 2:
                 printf("Play version 2\n");
+                guess_binary_from_num();
                 break;
             case 3:
                 printf("Good bye\n");
@@ -56,6 +59,7 @@ printf("\n\t The BitShape Game \n");
     }
     return 0;   
 }
+
 
 /* Print n as a binary number */
 void printbitssimple(int n) 
@@ -72,6 +76,20 @@ void printbitssimple(int n)
         i >>= 1;
     }
 }
+
+
+/*similar to printbitssimple, but instead of Printing
+ * write the bitshape into a string */
+void createbitshape(int n, char* btshp){
+    printf("inside createbitshape ");
+    btshp[0] = 'z';
+    btshp[1] = 'a';
+    btshp[2] = 'b';
+    btshp[3] = 'c';
+    btshp[4] = 'd';
+
+}
+
 /*show the user a bit shape and compare the input*/
 int guess_num_from_binary(void){
     int random_num ;
@@ -90,4 +108,21 @@ int guess_num_from_binary(void){
     } else {
         return random_num;
     }
+}
+
+
+/*show the user an integer and compare the bit input */
+int guess_binary_from_num(void){
+    int random_num ;
+    char ans[8];
+    char bitshp[8];
+    srand(time(NULL));
+    random_num = rand() % 100 + 1;
+    printf("Here is the number: %d\n", random_num);
+    printf("\nEnter your answer\n");
+    fgets(ans, 10, stdin);
+    printf("\n");
+    createbitshape(random_num, bitshp);
+    printf("you typed: %s \n", ans);
+    printf("the correct answer is : %s \n", bitshp);
 }
