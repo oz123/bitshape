@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 #define CHARSIZE 10
 
 void mainloop(void);
 void random_number(void);
 void printbitssimple(int);
-void createbitshape(int, char*);
+void createbitshape(int, char[]);
 int  compare_user_input(char*);
 int guess_num_from_binary(void);
 int guess_binary_from_num(void);
@@ -15,9 +16,6 @@ int guess_binary_from_num(void);
 int main(void) 
 {
 
-int random_num = 0;
-int guessed_num = 0;
-int counter = 0; 
 int play_on = 1;
 int ans;
 char response[CHARSIZE];
@@ -28,7 +26,7 @@ printf("\n\t The BitShape Game \n");
     {
         printf("Enter a choice, which game you would like to play:\n");
         printf("1 - Guess a number from it's bit shape ...\n");
-        printf("2 - Given an integer type in it's bit shape ...2\n");
+        printf("2 - Given an integer type in it's bit shape ...\n");
         printf("3 - Exit the game\n");
         fgets(response, CHARSIZE, stdin);
         printf("Printing s: %s\n", response);
@@ -67,7 +65,7 @@ void printbitssimple(int n)
 {
     unsigned int i;
     /* printf("The sizeof of n is %ld\n", sizeof(n));*/
-    i = 1<<(sizeof(n) * 4 - 1);
+    i = 1<<(sizeof(n) * 2 - 1);
     while (i > 0) 
     {
         if (n & i)  /* check if any of the bits of n is not 0 .*/
@@ -81,20 +79,28 @@ void printbitssimple(int n)
 
 /*similar to printbitssimple, but instead of Printing
  * write the bitshape into a string */
-void createbitshape(int n, char* btshp){
-    printf("inside createbitshape \n");
-    int i, count;
-    count = 0;
-    i = 1<<(sizeof(n) * 4 - 1);
-    for ( ; i > 0; i >>=1 )
+void createbitshape(int n, char bitshp[]){
+    unsigned int i;
+    /* printf("The sizeof of n is %ld\n", sizeof(n));*/
+    int c = 0;
+    i = 1<<(sizeof(n) * 2 - 1);
+    
+    while (i > 0) 
     {
         if (n & i)  /* check if any of the bits of n is not 0 .*/
-            btshp[count] = '1';
+        {
+            //printf("1");
+            bitshp[c] = '1';
+        }
         else
-            btshp[count] = '0';
-        count++;
+        {
+            //printf("0");
+            bitshp[c] = '0';
+        }
+        i >>= 1;
+    c=c+1;
     }
-    btshp[16] = '\0';
+    bitshp[c] = '\0';
 }
 
 /*show the user a bit shape and compare the input*/
@@ -103,7 +109,6 @@ int guess_num_from_binary(void){
     char ans[8];
     srand(time(NULL));
     random_num = rand() % 100 + 1;
-    
     printf("Here is the number:\n");
     printbitssimple(random_num);
     printf("\nEnter your answer\n");
@@ -121,15 +126,22 @@ int guess_num_from_binary(void){
 /*show the user an integer and compare the bit input */
 int guess_binary_from_num(void){
     int random_num ;
-    char ans[8];
-    char bitshp[17];
+    char ans[20];
+    char bitshp[8]; 
     srand(time(NULL));
     random_num = rand() % 100 + 1;
     printf("Here is the number: %d\n", random_num);
     printf("\nEnter your answer\n");
-    fgets(ans, 10, stdin);
+    fgets(ans, 20, stdin);
     printf("\n");
     createbitshape(random_num, bitshp);
-    printf("you typed: %s \n", ans);
-    printf("the correct answer is : %s \n", bitshp);
+    if (! strncmp(bitshp, ans, 8)){
+        printf("That's correct ! \n");
+        return 1;
+    } else {
+        printf("you typed: %s \n", ans);
+        printf("the correct answer is : %s \n", bitshp);
+        printf("\n");
+    }   
+    return 0;
 }
