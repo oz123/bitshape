@@ -2,7 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+
 #define CHARSIZE 10
+#define MAXNUMBER 100
 
 void printbitssimple(int);
 void createbitshape(int, char[]);
@@ -16,7 +18,6 @@ int main(void)
 int play_on = 1;
 int ans;
 char response[CHARSIZE];
-
 
 printf("\n\t The BitShape Game \n"); 
     while(play_on)
@@ -56,56 +57,12 @@ printf("\n\t The BitShape Game \n");
     return 0;   
 }
 
-
-/* Print n as a binary number */
-void printbitssimple(int n) 
-{
-    unsigned int i;
-    /* printf("The sizeof of n is %ld\n", sizeof(n));*/
-    i = 1<<(sizeof(n) * 2 - 1);
-    while (i > 0) 
-    {
-        if (n & i)  /* check if any of the bits of n is not 0 .*/
-            printf("1");
-        else
-            printf("0");
-        i >>= 1;
-    }
-}
-
-
-/*similar to printbitssimple, but instead of Printing
- * write the bitshape into a string */
-void createbitshape(int n, char bitshp[]){
-    unsigned int i;
-    /* printf("The sizeof of n is %ld\n", sizeof(n));*/
-    int c = 0;
-    i = 1<<(sizeof(n) * 2 - 1);
-    
-    while (i > 0) 
-    {
-        if (n & i)  /* check if any of the bits of n is not 0 .*/
-        {
-            //printf("1");
-            bitshp[c] = '1';
-        }
-        else
-        {
-            //printf("0");
-            bitshp[c] = '0';
-        }
-        i >>= 1;
-    c=c+1;
-    }
-    bitshp[c] = '\0';
-}
-
 /*show the user a bit shape and compare the input*/
 int guess_num_from_binary(void){
     int random_num ;
     char ans[8];
     srand(time(NULL));
-    random_num = rand() % 100 + 1;
+    random_num = rand() % MAXNUMBER + 1;
     printf("Here is the number:\n");
     printbitssimple(random_num);
     printf("\nEnter your answer\n");
@@ -126,7 +83,7 @@ int guess_binary_from_num(void){
     char ans[20];
     char bitshp[8]; 
     srand(time(NULL));
-    random_num = rand() % 100 + 1;
+    random_num = rand() % MAXNUMBER + 1;
     printf("Here is the number: %d\n", random_num);
     printf("\nEnter your answer\n");
     fgets(ans, 20, stdin);
@@ -142,3 +99,25 @@ int guess_binary_from_num(void){
     }   
     return 0;
 }
+
+/* Print n as a binary number */
+void printbitssimple(int n)
+{
+    
+    for (unsigned bit = 1<<(sizeof(n) * 2 - 1);  bit != 0; bit >>= 1)
+    {
+        putchar((n & bit) ? '1' : '0');
+    }
+}
+/*similar to printbitssimple, but instead of Printing
+ * write the bitshape into a string */
+void createbitshape(int n, char bitshp[])
+{
+    int c = 0;
+    for (unsigned bit = 1<<(sizeof(n) * 2 - 1); bit != 0; bit >>= 1, c++)
+    {
+        bitshp[c] = ((n & bit) ? '1' : '0');
+    }
+    bitshp[c] = '\0';
+}
+
