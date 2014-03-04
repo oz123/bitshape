@@ -19,13 +19,13 @@ int play_on = 1;
 int ans;
 char response[CHARSIZE];
 
-printf("\n\t The BitShape Game \n"); 
+puts("\t The BitShape Game "); 
     while(play_on)
     {
-        printf("Enter a choice, which game you would like to play:\n");
-        printf("1 - Guess a number from it's bit shape ...\n");
-        printf("2 - Given an integer type in it's bit shape ...\n");
-        printf("3 - Exit the game\n");
+        puts("Enter a choice, which game you would like to play:");
+        puts("1 - Guess a number from it's bit shape ...");
+        puts("2 - Given an integer type in it's bit shape ...");
+        puts("3 - Exit the game");
         fgets(response, CHARSIZE, stdin);
         printf("Printing s: %s\n", response);
         switch(atoi(response)){
@@ -35,21 +35,21 @@ printf("\n\t The BitShape Game \n");
                 /* if correct guess_num_from_binary returns 0 */
                 ans = guess_num_from_binary();
                 if (! ans) {
-                    printf("\nThat's Correct!\n"); 
+                    puts("\nThat's Correct!\n"); 
                     } else {
                     printf("\nThat's Wrong! The correct answer is %d\n", ans);
                     }
                 break;
             case 2:
-                printf("Play version 2\n");
+                puts("Play version 2\n");
                 guess_binary_from_num();
                 break;
             case 3:
-                printf("Good bye\n");
+                puts("Good bye");
                 play_on = 0;
                 break;
             default:
-                printf("Did not understand your input...\n");
+                puts("Did not understand your input...");
                 break;
         
         }
@@ -63,11 +63,11 @@ int guess_num_from_binary(void){
     char ans[8];
     srand(time(NULL));
     random_num = rand() % MAXNUMBER + 1;
-    printf("Here is the number:\n");
+    puts("Here is the number:");
     printbitssimple(random_num);
-    printf("\nEnter your answer\n");
+    puts("\nEnter your answer");
     fgets(ans, 6, stdin);
-    printf("\n");
+    putchar('\n');
     printf("you typed: %s \n", ans);
     if ( atoi(ans) == random_num ) {
         return 0;
@@ -85,17 +85,17 @@ int guess_binary_from_num(void){
     srand(time(NULL));
     random_num = rand() % MAXNUMBER + 1;
     printf("Here is the number: %d\n", random_num);
-    printf("\nEnter your answer\n");
+    puts("\nEnter your answer");
     fgets(ans, 20, stdin);
-    printf("\n");
+    putchar('\n');
     createbitshape(random_num, bitshp);
     if (! strncmp(bitshp, ans, 8)){
-        printf("That's correct ! \n");
+        puts("That's correct !");
         return 1;
     } else {
         printf("you typed: %s \n", ans);
         printf("the correct answer is : %s \n", bitshp);
-        printf("\n");
+        putchar('\n');
     }   
     return 0;
 }
