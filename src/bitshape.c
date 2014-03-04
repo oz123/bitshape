@@ -4,11 +4,8 @@
 #include <time.h>
 #define CHARSIZE 10
 
-void mainloop(void);
-void random_number(void);
 void printbitssimple(int);
 void createbitshape(int, char[]);
-int  compare_user_input(char*);
 int guess_num_from_binary(void);
 int guess_binary_from_num(void);
 
